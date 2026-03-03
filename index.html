@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#FF6B35">
+    <title>ジュンジュン決済 - PayPay風決済アプリ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <script src="js/config.js"></script>
+    <script src="js/mobile-app.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- PayPay風ヘッダー -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="app-icon">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <h1 class="app-title">ジュンジュン決済</h1>
+                <p class="app-subtitle">スマホ決済アプリ</p>
+            </div>
+            <div class="header-decoration">
+                <div class="deco-circle"></div>
+                <div class="deco-circle"></div>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <!-- 金額入力セクション -->
+            <section class="input-section card">
+                <div class="section-header">
+                    <i class="fas fa-yen-sign"></i>
+                    <h2>支払い金額</h2>
+                </div>
+                
+                <div class="amount-display">
+                    <span class="yen-symbol">¥</span>
+                    <input 
+                        type="tel"
+                        inputmode="numeric"
+                        id="amount-input" 
+                        class="amount-input" 
+                        placeholder="0"
+                        autocomplete="off"
+                        pattern="[0-9]*"
+                        value=""
+                    >
+                </div>
+
+                <!-- クイック金額ボタン -->
+                <div class="quick-amounts">
+                    <button class="quick-amount-btn" data-amount="100">¥100</button>
+                    <button class="quick-amount-btn" data-amount="500">¥500</button>
+                    <button class="quick-amount-btn" data-amount="1000">¥1,000</button>
+                    <button class="quick-amount-btn" data-amount="2000">¥2,000</button>
+                    <button class="quick-amount-btn" data-amount="5000">¥5,000</button>
+                    <button class="quick-amount-btn" data-amount="10000">¥10,000</button>
+                </div>
+            </section>
+
+            <!-- 音声選択セクション -->
+            <section class="sound-section card">
+                <div class="section-header">
+                    <i class="fas fa-volume-up"></i>
+                    <h2>決済音</h2>
+                </div>
+                
+                <div class="sound-selection">
+                    <div class="sound-select-container">
+                        <select id="sound-select" class="sound-select">
+                            <!-- オプションはJavaScriptで動的に追加 -->
+                        </select>
+                        <button id="test-sound-btn" class="test-sound-btn" title="テスト再生">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                    <p id="sound-description" class="sound-description">
+                        <!-- 説明はJavaScriptで動的に更新 -->
+                    </p>
+                </div>
+            </section>
+
+            <!-- 決済ボタン -->
+            <section class="action-section">
+                <button id="confirm-btn" class="pay-button">
+                    <div class="button-content">
+                        <i class="fas fa-bell"></i>
+                        <span class="button-text">ジュンジュン</span>
+                    </div>
+                    <div class="button-subtitle">決済する</div>
+                </button>
+            </section>
+
+            <!-- ステータス表示 -->
+            <section class="status-section card">
+                <div class="sound-visualizer" id="sound-visualizer">
+                    <div class="sound-wave"></div>
+                    <div class="sound-wave"></div>
+                    <div class="sound-wave"></div>
+                    <div class="sound-wave"></div>
+                    <div class="sound-wave"></div>
+                </div>
+                <p class="status-text">決済ボタンを押すと「ジュンジュン」と鳴ります</p>
+            </section>
+        </main>
+
+        <!-- フッター -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p>&copy; 2024 ジュンジュン決済</p>
+                <p class="footer-subtitle">Inspired by PayPay</p>
+            </div>
+        </footer>
+
+        <!-- ローディングオーバーレイ -->
+        <div id="loading-overlay" class="loading-overlay">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p class="loading-text">決済処理中...</p>
+            </div>
+        </div>
+
+        <!-- 成功メッセージ -->
+        <div id="success-message" class="success-message">
+            <div class="success-content">
+                <i class="fas fa-check-circle"></i>
+                <p class="success-text">決済完了！</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

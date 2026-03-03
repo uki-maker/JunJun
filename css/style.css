@@ -1,0 +1,656 @@
+/* モバイルファースト - PayPay風デザイン */
+:root {
+    --paypay-primary: #FF6B35;
+    --paypay-secondary: #F7931E;
+    --paypay-accent: #FFD23F;
+    --paypay-dark: #2C3E50;
+    --paypay-light: #F8F9FA;
+    --paypay-white: #FFFFFF;
+    --paypay-gray: #6C757D;
+    --paypay-success: #28A745;
+    --paypay-shadow: rgba(0, 0, 0, 0.08);
+    --paypay-gradient: linear-gradient(135deg, var(--paypay-primary) 0%, var(--paypay-secondary) 100%);
+    --border-radius: 16px;
+    --spacing: 16px;
+    --touch-target: 44px; /* モバイル推奨タップ領域 */
+}
+
+/* リセットとベーススタイル */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    touch-action: manipulation;
+}
+
+body {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    color: var(--paypay-dark);
+    line-height: 1.5;
+    font-size: 14px;
+    overflow-x: hidden;
+}
+
+/* アプリコンテナ - モバイル最適化 */
+.app-container {
+    background: var(--paypay-white);
+    border-radius: 20px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 100%;
+    min-height: calc(100vh - 16px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* モバイル用ヘッダー */
+.app-header {
+    background: var(--paypay-gradient);
+    padding: 24px 20px;
+    text-align: center;
+    color: var(--paypay-white);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+}
+
+.app-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    font-size: 28px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.app-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-subtitle {
+    font-size: 13px;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.header-decoration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+.deco-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.deco-circle:nth-child(1) {
+    width: 100px;
+    height: 100px;
+    top: -50px;
+    right: -50px;
+}
+
+.deco-circle:nth-child(2) {
+    width: 70px;
+    height: 70px;
+    bottom: -35px;
+    left: -35px;
+}
+
+/* メインコンテンツ - モバイル最適化 */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* カードコンポーネント */
+.card {
+    background: var(--paypay-white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 4px 12px var(--paypay-shadow);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--paypay-accent);
+}
+
+.section-header i {
+    color: var(--paypay-primary);
+    font-size: 18px;
+}
+
+.section-header h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--paypay-dark);
+}
+
+/* 金額入力 - モバイル最適化 */
+.amount-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 6px;
+    position: relative;
+}
+
+.yen-symbol {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--paypay-gray);
+    margin-right: 6px;
+}
+
+.amount-input {
+    font-size: 42px;
+    font-weight: 700;
+    color: var(--paypay-primary);
+    border: none;
+    background: transparent;
+    text-align: center;
+    width: 180px;
+    outline: none;
+    font-family: 'Noto Sans JP', sans-serif;
+    caret-color: var(--paypay-primary);
+}
+
+.amount-input::placeholder {
+    color: #ccc;
+}
+
+.amount-input:focus {
+    background: rgba(255, 107, 53, 0.05);
+    border-radius: 8px;
+}
+
+/* クイック金額ボタン - モバイル最適化 */
+.quick-amounts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.quick-amount-btn {
+    padding: 12px 6px;
+    background: linear-gradient(135deg, var(--paypay-light) 0%, #e9ecef 100%);
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--paypay-dark);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.quick-amount-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: var(--paypay-primary);
+}
+
+.quick-amount-btn:active {
+    transform: translateY(0);
+    background: var(--paypay-gradient);
+    color: white;
+}
+
+.quick-amount-btn.active {
+    background: var(--paypay-gradient);
+    color: white;
+    border-color: var(--paypay-primary);
+}
+
+/* 音声選択 - モバイル最適化 */
+.sound-selection {
+    position: relative;
+}
+
+.sound-select-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.sound-select {
+    flex: 1;
+    padding: 12px 14px;
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--paypay-dark);
+    background: var(--paypay-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+    min-height: var(--touch-target);
+}
+
+.sound-select:focus {
+    border-color: var(--paypay-primary);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.test-sound-btn {
+    padding: 12px 14px;
+    background: var(--paypay-gradient);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 44px;
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    touch-action: manipulation;
+}
+
+.test-sound-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3);
+}
+
+.test-sound-btn:active {
+    transform: translateY(0);
+}
+
+.test-sound-btn.playing {
+    background: linear-gradient(135deg, var(--paypay-success) 0%, #2ecc71 100%);
+    animation: pulse 0.6s ease-in-out;
+}
+
+.sound-description {
+    font-size: 12px;
+    color: var(--paypay-gray);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* 決済ボタン - モバイル最適化 */
+.pay-button {
+    width: 100%;
+    padding: 18px 20px;
+    background: var(--paypay-gradient);
+    border: none;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+    position: relative;
+    overflow: hidden;
+    min-height: 60px;
+    touch-action: manipulation;
+}
+
+.pay-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+}
+
+.pay-button:active {
+    transform: translateY(-1px);
+}
+
+.pay-button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.button-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.button-text {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.button-subtitle {
+    font-size: 11px;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+/* ステータスセクション */
+.status-section {
+    background: var(--paypay-light);
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.status-text {
+    font-size: 12px;
+    color: var(--paypay-gray);
+    margin: 10px 0 0 0;
+}
+
+/* サウンドビジュアライザー */
+.sound-visualizer {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 4px;
+    height: 32px;
+    margin-bottom: 8px;
+}
+
+.sound-wave {
+    width: 4px;
+    background: var(--paypay-primary);
+    border-radius: 2px;
+    animation: wave 1.2s ease-in-out infinite;
+}
+
+.sound-wave:nth-child(2) {
+    height: 16px;
+    animation-delay: 0.1s;
+}
+
+.sound-wave:nth-child(3) {
+    height: 24px;
+    animation-delay: 0.2s;
+}
+
+.sound-wave:nth-child(4) {
+    height: 20px;
+    animation-delay: 0.3s;
+}
+
+.sound-wave:nth-child(5) {
+    height: 12px;
+    animation-delay: 0.4s;
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: scaleY(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scaleY(1.8);
+        opacity: 1;
+    }
+}
+
+/* フッター */
+.app-footer {
+    background: var(--paypay-light);
+    padding: 16px;
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.footer-content p {
+    font-size: 11px;
+    color: var(--paypay-gray);
+    margin: 0;
+}
+
+.footer-subtitle {
+    font-size: 9px !important;
+    opacity: 0.7;
+    margin-top: 2px !important;
+}
+
+/* ローディングオーバーレイ - モバイル最適化 */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.loading-content {
+    background: var(--paypay-white);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 280px;
+    width: 90%;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--paypay-light);
+    border-top: 3px solid var(--paypay-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 12px;
+}
+
+.loading-text {
+    font-size: 14px;
+    color: var(--paypay-dark);
+    font-weight: 500;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 成功メッセージ - モバイル最適化 */
+.success-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: var(--paypay-success);
+    color: white;
+    border-radius: 16px;
+    padding: 20px 24px;
+    box-shadow: 0 8px 32px rgba(40, 167, 69, 0.3);
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.success-message.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.success-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.success-content i {
+    font-size: 20px;
+}
+
+.success-text {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* アニメーションクラス */
+.pulse {
+    animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.sound-playing .sound-wave {
+    animation-duration: 0.3s;
+    background: var(--paypay-success);
+}
+
+/* スクロールバー非表示 */
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    scrollbar-width: none;
+}
+
+/* タッチフィードバック */
+@media (hover: none) {
+    .quick-amount-btn:active,
+    .test-sound-btn:active,
+    .pay-button:active {
+        opacity: 0.8;
+        transform: scale(0.98);
+    }
+}
+
+/* タブレット対応 */
+@media (min-width: 768px) {
+    body {
+        padding: 20px;
+    }
+    
+    .app-container {
+        max-width: 420px;
+        min-height: auto;
+        border-radius: 24px;
+    }
+    
+    .main-content {
+        padding: 24px;
+        gap: 20px;
+    }
+    
+    .amount-input {
+        font-size: 48px;
+        width: 200px;
+    }
+    
+    .yen-symbol {
+        font-size: 32px;
+    }
+    
+    .quick-amounts {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .quick-amount-btn {
+        font-size: 14px;
+        padding: 14px 8px;
+    }
+    
+    .pay-button {
+        padding: 20px 24px;
+        font-size: 20px;
+    }
+    
+    .button-text {
+        font-size: 20px;
+    }
+}
+
+/* デスクトップ対応 */
+@media (min-width: 1024px) {
+    .app-container {
+        max-width: 480px;
+    }
+    
+    .app-header {
+        padding: 28px 24px;
+    }
+    
+    .main-content {
+        padding: 28px;
+        gap: 24px;
+    }
+    
+    .amount-input {
+        font-size: 52px;
+        width: 220px;
+    }
+    
+    .yen-symbol {
+        font-size: 36px;
+    }
+}
