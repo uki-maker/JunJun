@@ -42,6 +42,38 @@ class JunJunPaymentApp {
             this.playJunJun();
         });
     }
+    
+    setupQuickAmountButtons() {
+        const quickButtons = document.querySelectorAll('.quick-amount-btn');
+        const amountInput = document.getElementById('amount-input');
+
+        console.log('Setting up quick amount buttons...');
+
+        quickButtons.forEach(button => {
+            // クリックイベント（タッチデバイスでも確実に動作）
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const amount = button.getAttribute('data-amount');
+                console.log('Quick button clicked:', amount);
+                amountInput.value = amount;
+                this.addPulseEffect(button);
+                
+                // 振動フィードバック（対応デバイス）
+                if ('vibrate' in navigator) {
+                    navigator.vibrate(50);
+                }
+            });
+
+            // タッチイベントを簡素化
+            button.addEventListener('touchstart', (e) => {
+                // デフォルトのタッチ動作を防止
+                e.preventDefault();
+            });
+        });
+    }
+
 
     initializeAudioContext() {
         try {
