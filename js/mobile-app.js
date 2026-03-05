@@ -303,6 +303,119 @@ class JunJunPaymentApp {
             navigator.vibrate([50, 100, 50]);
         }
     }
+    
+    playPaymentSound(isPreview = false) {
+        if (this.isPlaying && !isPreview) return;
+        this.isPlaying = true;
+
+        console.log('playPaymentSound called, isPreview:', isPreview);
+        
+        if (!this.hasUserInteraction) {
+            console.log('ユーザー操作が必要です - 初回はクリック/タッチしてください');
+            this.isPlaying = false;
+            return;
+        }
+
+        // サウンドビジュアライザーのアニメーション
+        this.animateSoundVisualizer();
+
+        // まずSpeech Synthesisで「じゅんじゅん」と読み上げ
+        if ('speechSynthesis' in window) {
+            this.playJunJunSound();
+        } else {
+            // フォールバック：Web Audio API
+            this.playSyntheticJunJunSound();
+        }
+
+        // 1秒後に再生フラグをリセット
+        setTimeout(() => {
+            this.isPlaying = false;
+        }, 1000);
+    }
+
+    playSpeechSound(params) {
+        if (!this.speechSynthesis) {
+            console.warn('Speech Synthesis is not available');
+            return;
+        }
+
+        // 既存の音声をキャンセル
+        this.speechSynthesis.cancel();
+
+        const utterance = new SpeechSynthesisUtterance(params.text);
+        
+        // パラメータを設定
+        if (params.lang) utterance.lang = params.lang;
+        if (params.pitch) utterance.pitch = params.pitch;
+        if (params.rate) utterance.rate = params.rate;
+        if (params.volume) utterance.volume = params.volume;
+
+        // 再生開始
+        this.speechSynthesis.speak(utterance);
+    }
+
+    playSyntheticSound(params) {
+        if (!this.audioContext) {
+            this.initializeAudioContext();
+            if (!this.audioContext) return;
+        }
+
+        const now = this.audioContext.currentTime;
+        const frequencies = params.frequencies || [523.25, 659.25, 783.99];
+        const duration = params.duration || 0.3;
+        const waveform = params.waveform || 'sine';
+
+        frequencies.forEach((freq, index) => {
+            const oscillator = this.audioContext.createOscillator();
+            const gainNode = this.audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(this.audioContext.destination);
+
+            oscillator.type = waveform;
+            oscillator.frequency.setValueAtTime(freq, now + (index * duration * 0.5));
+
+            gainNode.gain.setValueAtTime(0, now + (index * duration * 0.5));
+            gainNode.gain.linearRampToValueAtTime(0.3, now + (index * duration * 0.5) + 0.01);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, now + (index * duration * 0.5) + duration);
+
+            oscillator.start(now + (index * duration * 0.5));
+            oscillator.stop(now + (index * duration * 0.5) + duration);
+        });
+    }
+
+    animateSoundVisualizer() {
+        const visualizer = document.getElementById('sound-visualizer');
+        const waves = visualizer.querySelectorAll('.sound-wave');
+        
+        waves.forEach((wave, index) => {
+            wave.style.animationDuration = '0.3s';
+            wave.style.background = 'var(--paypay-success)';
+        });
+
+        setTimeout(() => {
+            waves.forEach((wave, index) => {
+                wave.style.animationDuration = '1.2s';
+                wave.style.background = 'var(--paypay-primary)';
+            });
+        }, 1000);
+    }
+
+    addPulseEffect(element) {
+        element.classList.add('pulse');
+        setTimeout(() => {
+            element.classList.remove('pulse');
+        }, 600);
+    }
+
+    initializeSpeechSynthesis() {
+        if ('speechSynthesis' in window) {
+            this.speechSynthesis = window.speechSynthesis;
+            console.log('Speech Synthesis initialized');
+        } else {
+            console.warn('Speech Synthesis API is not supported in this browser');
+        }
+    }
 }
 
 // アプリケーション初期化
