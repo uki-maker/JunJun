@@ -9,6 +9,7 @@ class JunJunPaymentApp {
         console.log("JunJun App 初期化");
 
         this.initializeSpeech();
+        this.setupQuickAmountButtons();
         this.setupUserInteraction();
         this.setupEventListeners();
     }
@@ -42,7 +43,7 @@ class JunJunPaymentApp {
             this.playJunJun();
         });
     }
-    
+
     setupQuickAmountButtons() {
         const quickButtons = document.querySelectorAll('.quick-amount-btn');
         const amountInput = document.getElementById('amount-input');
