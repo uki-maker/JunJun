@@ -218,21 +218,24 @@ body {
 }
 
 .quick-amount-btn {
-    padding: 12px 6px;
+    padding: 16px 8px; /* モバイル向けに大きめのパディング */
     background: linear-gradient(135deg, var(--paypay-light) 0%, #e9ecef 100%);
     border: 2px solid #dee2e6;
     border-radius: 12px;
-    font-size: 12px;
+    font-size: 14px; /* モバイル向けに大きめのフォント */
     font-weight: 500;
     color: var(--paypay-dark);
     cursor: pointer;
     transition: all 0.2s ease;
-    min-height: var(--touch-target);
+    min-height: 48px; /* iOS推奨の44px以上 */
+    min-width: 70px; /* モバイル向け最小幅 */
     display: flex;
     align-items: center;
     justify-content: center;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    user-select: none; /* テキスト選択防止 */
+    -webkit-user-select: none;
 }
 
 .quick-amount-btn:hover {

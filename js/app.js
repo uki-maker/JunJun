@@ -58,24 +58,20 @@ class SoundPaymentApp {
 
         console.log('Setting up event listeners...');
 
-        // 決定ボタンのクリックイベント
+        // 決定ボタン：シンプルなクリックイベントのみ
         confirmBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            
+            // 最初のユーザー操作を検出
+            if (!this.hasUserInteraction) {
+                this.hasUserInteraction = true;
+                this.initializeAudioContext();
+                this.initializeSpeechSynthesis();
+            }
+            
             console.log('決定ボタン clicked');
             this.handleConfirm();
-        });
-
-        confirmBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            confirmBtn.style.transform = 'scale(0.95)';
-        });
-
-        confirmBtn.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            confirmBtn.style.transform = '';
-            console.log('決定ボタン touched');
-            this.handleConfirm();
-        });
+        }, { passive: false });
 
         // 金額入力のモバイル最適化
         amountInput.addEventListener('input', (e) => {
@@ -86,18 +82,7 @@ class SoundPaymentApp {
         if (!amountInput.value) {
             amountInput.value = '';
         }
-
-        // オーディオコンテキストの初期化（ユーザー操作に基づく）
-        document.addEventListener('click', () => {
-            if (!this.audioContext) {
-                this.initializeAudioContext();
-            }
-        }, { once: true });
-
-        document.addEventListener('touchstart', () => {
-            if (!this.audioContext) {
-                this.initializeAudioContext();
-            }
+    }
         }, { once: true });
     }
 
@@ -108,10 +93,16 @@ class SoundPaymentApp {
         console.log('Setting up quick amount buttons...');
 
         quickButtons.forEach(button => {
-            // クリックイベント（タッチデバイスでも確実に動作）
-            button.addEventListener('click', (e) => {
+            // モバイル対応：シンプルなクリックイベントのみ使用
+            const handleClick = (e) => {
                 e.preventDefault();
-                e.stopPropagation();
+                
+                // 最初のユーザー操作を検出
+                if (!this.hasUserInteraction) {
+                    this.hasUserInteraction = true;
+                    this.initializeAudioContext();
+                    this.initializeSpeechSynthesis();
+                }
                 
                 const amount = button.getAttribute('data-amount');
                 console.log('Quick button clicked:', amount);
@@ -122,13 +113,10 @@ class SoundPaymentApp {
                 if ('vibrate' in navigator) {
                     navigator.vibrate(50);
                 }
-            });
-
-            // タッチイベントを簡素化
-            button.addEventListener('touchstart', (e) => {
-                // デフォルトのタッチ動作を防止
-                e.preventDefault();
-            });
+            };
+            
+            // クリックイベントのみを使用（タッチイベントは削除）
+            button.addEventListener('click', handleClick, { passive: false });
         });
     }
 
@@ -142,9 +130,12 @@ class SoundPaymentApp {
     }
 
     playJunJunSound() {
+        // ユーザー操作がなくても強制的に音声を再生（モバイル対応）
         if (!this.hasUserInteraction) {
-            console.log('ユーザー操作が必要です');
-            return;
+            console.log('初回のユーザー操作を検出、音声システムを初期化');
+            this.hasUserInteraction = true;
+            this.initializeAudioContext();
+            this.initializeSpeechSynthesis();
         }
 
         if (!this.speechSynthesis) {
