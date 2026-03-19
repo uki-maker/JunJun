@@ -213,22 +213,22 @@ body {
 .quick-amounts {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 12px;
+    gap: 12px; /* モバイル向けに大きめの隙間 */
+    margin-top: 16px;
 }
 
 .quick-amount-btn {
-    padding: 16px 8px; /* モバイル向けに大きめのパディング */
+    padding: 18px 8px; /* モバイル向けに大きめのパディング */
     background: linear-gradient(135deg, var(--paypay-light) 0%, #e9ecef 100%);
     border: 2px solid #dee2e6;
     border-radius: 12px;
-    font-size: 14px; /* モバイル向けに大きめのフォント */
-    font-weight: 500;
+    font-size: 16px; /* モバイル向けに大きめのフォント */
+    font-weight: 600; /* より太字に */
     color: var(--paypay-dark);
     cursor: pointer;
     transition: all 0.2s ease;
-    min-height: 48px; /* iOS推奨の44px以上 */
-    min-width: 70px; /* モバイル向け最小幅 */
+    min-height: 52px; /* iOS推奨の44px以上、より大きめに */
+    min-width: 80px; /* モバイル向け最小幅 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -236,6 +236,7 @@ body {
     -webkit-tap-highlight-color: transparent;
     user-select: none; /* テキスト選択防止 */
     -webkit-user-select: none;
+    outline: none; /* フォーカスリング除去 */
 }
 
 .quick-amount-btn:hover {
